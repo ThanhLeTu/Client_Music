@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Management</title>
+    <style>
+        li {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .song-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        audio {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload Music</h1>
@@ -26,12 +41,13 @@
                 const list = document.getElementById('music-list');
 
                 files.forEach(fileName => {
-                    // Tạo danh sách bài hát
+                    // Tạo phần tử <li> cho mỗi bài hát
                     const item = document.createElement('li');
                     
                     // Hiển thị tên bài hát
-                    const title = document.createElement('span');
-                    title.textContent = fileName + " ";
+                    const title = document.createElement('div');
+                    title.textContent = fileName;
+                    title.classList.add('song-title');
                     
                     // Tạo audio player riêng cho từng bài hát
                     const audioPlayer = document.createElement('audio');
@@ -46,9 +62,9 @@
                         .catch(error => console.error("Error getting file ID:", error));
                     
                     // Gắn các phần tử vào danh sách
-                    item.appendChild(title);
-                    item.appendChild(audioPlayer);
-                    list.appendChild(item);
+                    item.appendChild(title);       // Thêm tên bài hát
+                    item.appendChild(audioPlayer); // Thêm trình phát nhạc
+                    list.appendChild(item);        // Thêm vào danh sách bài hát
                 });
             })
             .catch(error => {
