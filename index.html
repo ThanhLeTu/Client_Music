@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Management</title>
+</head>
+<body>
+    <h1>Upload Music</h1>
+    <form action="https://127.0.0.1:8443/music/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="audio/mpeg">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h1>Music List</h1>
+    <ul id="music-list"></ul>
+
+    <audio controls id="audio-player">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Gọi API để lấy danh sách bài hát
+        fetch('https://127.0.0.1:8443/music/list') // Sử dụng HTTPS và cổng 8443
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
+            .then(files => {
+                const list = document.getElementById('music-list');
+
+                files.forEach(fileName => {
+                    // Tạo danh sách bài hát
+                    const item = document.createElement('li');
+                    item.textContent = fileName;
+
+                    // Tạo nút "Play"
+                    const playButton = document.createElement('button');
+                    playButton.textContent = "Play";
+                    playButton.onclick = () => {
+                        fetch(`https://127.0.0.1:8443/music/getFileId?fileName=${encodeURIComponent(fileName)}`)
+                            .then(response => response.json())
+                            .then(fileId => {
+                                document.getElementById('audio-player').src = `https://127.0.0.1:8443/music/stream?fileId=${fileId}`;
+                            })
+                            .catch(error => console.error("Error getting file ID:", error));
+                    };
+
+                    item.appendChild(playButton);
+                    list.appendChild(item);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching music list:", error);
+            });
+    </script>
+</body>
+</html>
