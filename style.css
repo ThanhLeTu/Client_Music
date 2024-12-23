@@ -195,28 +195,34 @@ audio {
 
 .upload-container input[type="text"],
 .upload-container input[type="file"] {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-right: 15px; /* Adjust as needed */
 }
 
-.upload-container button {
-    background-color: #1a73e8;
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; /* Adjust as needed */
+    height: 30px; /* Adjust as needed */
+    background-color: #333; /* Optional: change background color */
+    border-radius: 50%;
     transition: background-color 0.3s ease;
 }
 
-.upload-container button:hover {
-    background-color: #0056b3;
+.upload-icon i {
+    font-size: 18px; /* Adjust the icon size as needed */
+    color: #fff;
+    cursor: pointer;
+}
+
+.upload-icon:hover {
+    background-color: #00aaff; /* Adjust hover color */
+}
+
+.upload-icon:hover i {
+    color: #ffd700;
 }
 
 .message {
