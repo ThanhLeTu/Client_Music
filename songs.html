@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Management</title>
-    <style>
-        li {
-            list-style-type: none;
-            margin-bottom: 20px;
-        }
-
-        .song-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        audio {
-            width: 100%;
-        }
-    </style>
+    <title>Danh Sách Bài Hát</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Logo" class="logo">
+            <nav class="nav">
+                <a href="index.html" class="nav-item">Trang Chủ</a>
+                <a href="songs.html" class="nav-item active">Danh Sách Bài Hát</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <a href="#" class="auth-link">Đăng nhập</a>
+            <button class="btn-primary">Đăng ký</button>
+        </div>
+    </header>
 <body>
     <h1>Upload Music</h1>
     <form action="https://127.0.0.1:8443/music/upload" method="post" enctype="multipart/form-data">
