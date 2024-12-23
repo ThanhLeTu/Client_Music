@@ -73,38 +73,38 @@
 
     <script>
         document.getElementById('upload-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Ngăn form gửi request mặc định
+    event.preventDefault();
 
-            const formData = new FormData(this);
-            const artistName = document.getElementById('artist-name').value.trim();
+    const artistName = document.getElementById('artist-name').value.trim();
+    if (!artistName) {
+        alert("Vui lòng nhập tên ca sĩ!");
+        return;
+    }
 
-            if (!artistName) {
-                alert("Vui lòng nhập tên ca sĩ!");
-                return;
-            }
+    const formData = new FormData(this);
+    formData.append("artistName", artistName);
 
-            formData.append("artistName", artistName);
-
-            fetch('https://127.0.0.1:8443/music/upload', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error('Error uploading file.');
-                    return response.text();
-                })
-                .then(message => {
-                    const messageBox = document.getElementById('message');
-                    messageBox.textContent = message;
-                    messageBox.style.color = 'green';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    const messageBox = document.getElementById('message');
-                    messageBox.textContent = 'Error uploading file.';
-                    messageBox.style.color = 'red';
-                });
+    fetch('https://127.0.0.1:8443/music/upload', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Error uploading file.');
+            return response.text();
+        })
+        .then(message => {
+            const messageBox = document.getElementById('message');
+            messageBox.textContent = message;
+            messageBox.style.color = 'green';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const messageBox = document.getElementById('message');
+            messageBox.textContent = 'Error uploading file.';
+            messageBox.style.color = 'red';
         });
+});
+
     </script>
 </body>
 </html>
