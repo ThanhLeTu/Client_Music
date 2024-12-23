@@ -4,9 +4,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
+    color: #333;
 }
 
 .header {
+    background-color: #1a73e8;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,6 +40,7 @@ body {
     font-size: 14px;
     color: #333;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .nav-item.active {
@@ -100,33 +103,34 @@ body {
     font-size: 16px;
     padding: 10px 20px;
 }
+/* Music List Section */
+.music-list-section {
+    padding: 20px;
+    background-color: #fff;
+}
 
-/* Music List Styles */
 .music-list {
     list-style: none;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
 }
 
 .music-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
+    flex-direction: column;
 }
 
 .music-info {
     font-size: 16px;
-    color: #333;
-}
-
-.music-title {
     font-weight: bold;
-    color: #333;
+    margin-bottom: 10px;
 }
 
-.music-artist {
-    color: #999;
+audio {
+    width: 100%;
+    outline: none;
 }
 
 .tags {
