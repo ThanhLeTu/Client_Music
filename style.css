@@ -143,55 +143,48 @@ audio {
     border-radius: 5px;
 }
 
+/* Upload Form Styles */
 .upload-container {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 500px;
     margin: 50px auto;
     text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .upload-container h1 {
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 25px;
     color: #1a73e8;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-label {
-    display: block;
     font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
 }
 
-input[type="text"], 
-input[type="file"] {
-    width: 100%;
+.upload-container input[type="text"],
+.upload-container input[type="file"] {
+    width: 90%;
     padding: 10px;
+    margin: 10px 0 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
-.btn-submit {
+.upload-container button {
     background-color: #1a73e8;
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.btn-submit:hover {
+.upload-container button:hover {
     background-color: #0056b3;
 }
 
@@ -199,4 +192,24 @@ input[type="file"] {
     margin-top: 15px;
     font-size: 14px;
     font-style: italic;
+}
+
+.message.success {
+    color: green;
+}
+
+.message.error {
+    color: red;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
