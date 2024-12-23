@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload File Âm Thanh</title>
     <style>
-        /* Reset CSS */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -32,11 +31,12 @@
             color: #333;
         }
 
-        .upload-container input[type="file"] {
+        .upload-container input[type="file"], .upload-container input[type="text"] {
             margin-bottom: 20px;
             display: block;
             margin-left: auto;
             margin-right: auto;
+            width: 90%;
         }
 
         .upload-container button {
@@ -64,6 +64,7 @@
     <div class="upload-container">
         <h1>Upload File Âm Thanh</h1>
         <form id="upload-form">
+            <input type="text" id="artist-name" name="artistName" placeholder="Nhập tên ca sĩ" required>
             <input type="file" name="file" accept="audio/mpeg" required>
             <button type="submit">Upload</button>
         </form>
@@ -71,13 +72,19 @@
     </div>
 
     <script>
-        // Xử lý sự kiện submit form
         document.getElementById('upload-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Ngăn chặn form gửi request mặc định
+            event.preventDefault(); // Ngăn form gửi request mặc định
 
             const formData = new FormData(this);
+            const artistName = document.getElementById('artist-name').value.trim();
 
-            // Gửi file đến server
+            if (!artistName) {
+                alert("Vui lòng nhập tên ca sĩ!");
+                return;
+            }
+
+            formData.append("artistName", artistName);
+
             fetch('https://127.0.0.1:8443/music/upload', {
                 method: 'POST',
                 body: formData,
@@ -88,7 +95,7 @@
                 })
                 .then(message => {
                     const messageBox = document.getElementById('message');
-                    messageBox.textContent = message; // Hiển thị thông báo thành công
+                    messageBox.textContent = message;
                     messageBox.style.color = 'green';
                 })
                 .catch(error => {
