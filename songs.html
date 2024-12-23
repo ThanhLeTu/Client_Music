@@ -14,9 +14,6 @@
             <nav class="nav">
                 <a href="index.html" class="nav-item">Trang Chủ</a>
                 <a href="songs.html" class="nav-item active">Danh Sách Bài Hát</a>
-                <a href="#" class="nav-item">Playlist</a>
-                <a href="#" class="nav-item">BXH</a>
-                <a href="#" class="nav-item">Top 100</a>
             </nav>
         </div>
         <div class="header-right">
@@ -25,41 +22,39 @@
         </div>
     </header>
 
-    <!-- Title -->
-    <h1 class="title">Danh Sách Bài Hát</h1>
-
-    <!-- Music List -->
-    <ul class="music-list" id="music-list"></ul>
+    <!-- Music List Section -->
+    <section class="music-list-section">
+        <h2 class="title">Danh Sách Bài Hát</h2>
+        <ul class="music-list" id="music-list"></ul>
+    </section>
 
     <script>
-        // Gọi API để lấy danh sách bài hát từ Google Drive
+        // Gọi API để lấy danh sách bài hát
         fetch('https://127.0.0.1:8443/music/list')
             .then(response => {
                 if (!response.ok) throw new Error("Network response was not ok");
-                return response.json(); // Parse JSON trả về
+                return response.json();
             })
             .then(files => {
-                const list = document.getElementById('music-list'); // Lấy danh sách HTML
+                const list = document.getElementById('music-list');
 
                 files.forEach(file => {
-                    // Tạo phần tử <li> cho mỗi bài hát
                     const item = document.createElement('li');
                     item.classList.add('music-item');
 
-                    // Thông tin bài hát
                     const musicInfo = document.createElement('div');
                     musicInfo.classList.add('music-info');
                     musicInfo.innerHTML = `
-                        <a href="detail_song.html?fileName=${encodeURIComponent(file.name)}&fileId=${file.id}" class="music-title">${file.name}</a>
+                        <span class="music-title">${file.name}</span>
+                        <span class="music-artist"> - ${file.artist || "Unknown Artist"}</span>
                     `;
 
-                    // Gắn thông tin bài hát vào item
                     item.appendChild(musicInfo);
                     list.appendChild(item);
                 });
             })
             .catch(error => {
-                console.error("Error fetching music list:", error); // Log lỗi nếu API thất bại
+                console.error("Error fetching music list:", error);
             });
     </script>
 </body>
