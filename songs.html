@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Bài Hát</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="header-left">
             <img src="logo.png" alt="Logo" class="logo">
@@ -24,44 +25,41 @@
         </div>
     </header>
 
+    <!-- Title -->
     <h1 class="title">Danh Sách Bài Hát</h1>
+
+    <!-- Music List -->
     <ul class="music-list" id="music-list"></ul>
 
     <script>
-        // Gọi API để lấy danh sách bài hát
+        // Gọi API để lấy danh sách bài hát từ Google Drive
         fetch('https://127.0.0.1:8443/music/list')
             .then(response => {
                 if (!response.ok) throw new Error("Network response was not ok");
-                return response.json();
+                return response.json(); // Parse JSON trả về
             })
             .then(files => {
-                const list = document.getElementById('music-list');
+                const list = document.getElementById('music-list'); // Lấy danh sách HTML
 
                 files.forEach(file => {
+                    // Tạo phần tử <li> cho mỗi bài hát
                     const item = document.createElement('li');
                     item.classList.add('music-item');
 
+                    // Thông tin bài hát
                     const musicInfo = document.createElement('div');
                     musicInfo.classList.add('music-info');
                     musicInfo.innerHTML = `
-                        <span class="music-title">${file.name || "Tên bài hát"}</span>
-                        <span class="music-artist"> - ${file.artist || "Unknown Artist"}</span>
+                        <a href="detail_song.html?fileName=${encodeURIComponent(file.name)}&fileId=${file.id}" class="music-title">${file.name}</a>
                     `;
 
-                    const tags = document.createElement('div');
-                    tags.classList.add('tags');
-                    tags.innerHTML = `
-                        <span class="tag official">OFFICIAL</span>
-                        <span class="tag hq">${file.quality || "HQ"}</span>
-                    `;
-
+                    // Gắn thông tin bài hát vào item
                     item.appendChild(musicInfo);
-                    item.appendChild(tags);
                     list.appendChild(item);
                 });
             })
             .catch(error => {
-                console.error("Error fetching music list:", error);
+                console.error("Error fetching music list:", error); // Log lỗi nếu API thất bại
             });
     </script>
 </body>
