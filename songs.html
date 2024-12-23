@@ -18,13 +18,26 @@
                 <a href="songs.html" class="nav-item active">Danh Sách Bài Hát</a>
             </nav>
         </div>
-        <div class="header-right">
-             <a href="" class="upload-icon">
-               <i class="fas fa-upload"></i> Upload File
-            </a>
-            <a href="#" class="auth-link">Đăng nhập</a>
-            <button class="btn-primary">Đăng ký</button>
+    <div class="header-right">
+    <!-- Icon Upload -->
+    <div class="upload-container">
+        <a href="#" class="upload-icon" onclick="toggleUploadForm()">
+            <i class="fas fa-upload"></i>
+        </a>
+        <!-- Form Upload -->
+        <div id="upload-form-container" class="upload-form hidden">
+            <form id="upload-form">
+                <input type="file" name="file" accept="audio/mpeg">
+                <button type="submit" class="btn-primary">Upload</button>
+            </form>
         </div>
+    </div>
+
+    <!-- Other Elements -->
+    <a href="#" class="auth-link">Đăng nhập</a>
+    <button class="btn-primary">Đăng ký</button>
+</div>
+
     </header>
 
     <!-- Music List Section -->
@@ -76,6 +89,40 @@
             .catch(error => {
                 console.error("Error fetching music list:", error);
             });
+
+          // Hiển thị modal upload
+    function openUploadModal() {
+        document.getElementById('upload-modal').style.display = 'block';
+    }
+
+    // Đóng modal upload
+    function closeUploadModal() {
+        document.getElementById('upload-modal').style.display = 'none';
+    }
+
+    // Xử lý sự kiện submit form upload
+    document.getElementById('upload-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Ngăn chặn form gửi yêu cầu HTTP mặc định
+
+        const formData = new FormData(this); // Tạo FormData từ form
+
+        fetch('https://127.0.0.1:8443/music/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Error uploading file.');
+                return response.text();
+            })
+            .then(message => {
+                alert(message); // Hiển thị thông báo thành công
+                closeUploadModal(); // Đóng modal
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error uploading file.');
+            });
+    });
     </script>
 </body>
 </html>
