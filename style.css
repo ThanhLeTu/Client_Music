@@ -5,13 +5,13 @@ body {
     padding: 20px;
 }
 
-h1 {
+.title {
     font-size: 24px;
-    color: #333;
+    font-weight: bold;
+    color: #1a73e8;
     margin-bottom: 20px;
 }
 
-/* Danh sách bài hát */
 .music-list {
     list-style: none;
     padding: 0;
@@ -19,62 +19,48 @@ h1 {
 
 .music-item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background: #fff;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-/* Phần thông tin bài hát */
 .music-info {
-    display: flex;
-    flex-direction: column;
+    font-size: 16px;
+    color: #333;
 }
 
 .music-title {
-    font-size: 16px;
     font-weight: bold;
-    margin: 0;
     color: #333;
 }
 
 .music-artist {
-    font-size: 14px;
-    color: #666;
+    color: #999;
 }
 
-/* Trang chi tiết bài hát */
-.song-container {
+.tags {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #000;
-    color: #fff;
-    padding: 20px;
+    gap: 5px;
 }
 
-.song-title {
-    font-size: 24px;
+.tag {
+    font-size: 12px;
     font-weight: bold;
-    margin-bottom: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #fff;
 }
 
-.song-artist {
-    font-size: 18px;
-    color: #ccc;
-    margin-bottom: 20px;
+.tag.official {
+    background-color: #d3d3d3;
+    color: #333;
 }
 
-audio {
-    width: 100%;
-    margin-top: 20px;
+.tag.hq {
+    background-color: #007bff;
 }
 
-.lyrics {
-    font-size: 16px;
-    text-align: center;
-    margin-top: 20px;
+.tag.sq {
+    background-color: #dc3545;
 }
