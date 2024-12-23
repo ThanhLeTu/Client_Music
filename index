@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chào mừng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Logo" class="logo">
+            <nav class="nav">
+                <a href="index.html" class="nav-item active">Trang Chủ</a>
+                <a href="songs.html" class="nav-item">Danh Sách Bài Hát</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <a href="#" class="auth-link">Đăng nhập</a>
+            <button class="btn-primary">Đăng ký</button>
+        </div>
+    </header>
+
+    <main class="welcome-container">
+        <h1>Chào mừng bạn đến với Hệ Thống Phát Nhạc Online</h1>
+        <p>Khám phá những bài hát, playlist, và album yêu thích. Đăng nhập để lưu trữ danh sách của bạn!</p>
+        <a href="songs.html" class="btn-primary">Khám Phá Ngay</a>
+    </main>
+</body>
+</html>
