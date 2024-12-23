@@ -84,15 +84,38 @@ body {
 .btn-primary:hover {
     background-color: #008ecc;
 }
+/* Adjust the styles for the upload container and icon */
+.upload-container {
+    display: flex;
+    align-items: center;
+    margin-right: 15px; /* Adjust as needed */
+}
+
+.upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    background-color: #333; /* Optional: change background color */
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
 .upload-icon i {
     font-size: 24px;
     color: #fff;
     cursor: pointer;
-    margin-right: 15px;
 }
+
+.upload-icon:hover {
+    background-color: #00aaff; /* Adjust hover color */
+}
+
 .upload-icon:hover i {
     color: #ffd700;
 }
+
 /* Welcome Page Styles */
 .welcome-container {
     text-align: center;
