@@ -143,7 +143,6 @@ audio {
     border-radius: 5px;
 }
 
-/* Upload Form Styles */
 .upload-container {
     background-color: #fff;
     padding: 30px;
@@ -160,36 +159,44 @@ audio {
     color: #1a73e8;
 }
 
-.upload-container input[type="file"], 
-.upload-container input[type="text"] {
+.form-group {
     margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"], 
+input[type="file"] {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
 }
 
-.upload-container button {
+.btn-submit {
     background-color: #1a73e8;
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.upload-container button:hover {
-    background-color: #166ad6;
+.btn-submit:hover {
+    background-color: #0056b3;
 }
 
 .message {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #333;
+    margin-top: 15px;
+    font-size: 14px;
+    font-style: italic;
 }
