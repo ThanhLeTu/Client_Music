@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Bài Hát</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Music Management</title>
+    <style>
+        li {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .song-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        audio {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <img src="logo.png" alt="Logo" class="logo">
-            <nav class="nav">
-                <a href="index.html" class="nav-item">Trang Chủ</a>
-                <a href="songs.html" class="nav-item active">Danh Sách Bài Hát</a>
-            </nav>
-        </div>
-        <div class="header-right">
-            <a href="#" class="auth-link">Đăng nhập</a>
-            <button class="btn-primary">Đăng ký</button>
-        </div>
-    </header>
+    <h1>Upload Music</h1>
+    <form action="https://127.0.0.1:8443/music/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="audio/mpeg">
+        <button type="submit">Upload</button>
+    </form>
 
-    <!-- Music List Section -->
-    <section class="music-list-section">
-        <h2 class="title">Danh Sách Bài Hát</h2>
-        <ul class="music-list" id="music-list"></ul>
-    </section>
+    <h1>Music List</h1>
+    <ul id="music-list"></ul>
 
     <script>
         // Gọi API để lấy danh sách bài hát
-      fetch('https://127.0.0.1:8443/music/list') // Sử dụng HTTPS và cổng 8443
+        fetch('https://127.0.0.1:8443/music/list') // Sử dụng HTTPS và cổng 8443
             .then(response => {
                 if (!response.ok) throw new Error("Network response was not ok");
                 return response.json();
@@ -41,7 +43,6 @@
                 files.forEach(fileName => {
                     // Tạo phần tử <li> cho mỗi bài hát
                     const item = document.createElement('li');
-                    item.classList.add('music-item');
                     
                     // Hiển thị tên bài hát
                     const title = document.createElement('div');
@@ -72,3 +73,4 @@
     </script>
 </body>
 </html>
+từ đây sửa lại giao diện, giữ các chức năng hiện tại
