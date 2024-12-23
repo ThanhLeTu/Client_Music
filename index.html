@@ -3,74 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Management</title>
+    <title>Music List</title>
     <style>
-        li {
-            list-style-type: none;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
             margin-bottom: 20px;
         }
 
-        .song-title {
-            font-size: 16px;
-            font-weight: bold;
+        .music-list {
+            list-style: none;
+            padding: 0;
         }
 
-        audio {
-            width: 100%;
+        .music-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            max-width: 60%;
+        }
+
+        .music-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            color: #333;
+        }
+
+        .music-artist {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .tag {
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .tag.official {
+            background-color: #d3d3d3;
+            color: #333;
+        }
+
+        .tag.hq {
+            background-color: #007bff;
+        }
+
+        .tag.sq {
+            background-color: #dc3545;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn {
+            cursor: pointer;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-btn:hover {
+            color: #0056b3;
+        }
+
+        .action-icon {
+            font-size: 20px;
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Upload Music</h1>
-    <form action="https://127.0.0.1:8443/music/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="audio/mpeg">
-        <button type="submit">Upload</button>
-    </form>
-
-    <h1>Music List</h1>
-    <ul id="music-list"></ul>
+    <h1>Danh Sách Bài Hát</h1>
+    <ul class="music-list" id="music-list"></ul>
 
     <script>
-        // Lấy danh sách bài hát từ API
-        fetch('https://127.0.0.1:8443/music/list') // Sử dụng HTTPS và cổng 8443
+        // Gọi API để lấy danh sách bài hát
+        fetch('https://127.0.0.1:8443/music/list') // API lấy danh sách file
             .then(response => {
                 if (!response.ok) throw new Error("Network response was not ok");
                 return response.json();
             })
             .then(files => {
-                const list = document.getElementById('music-list'); // Lấy danh sách HTML
+                const list = document.getElementById('music-list');
 
                 files.forEach(fileName => {
                     // Tạo phần tử <li> cho mỗi bài hát
                     const item = document.createElement('li');
+                    item.classList.add('music-item');
 
-                    // Tạo tiêu đề bài hát
-                    const title = document.createElement('div');
-                    title.textContent = fileName;
-                    title.classList.add('song-title');
+                    // Tạo phần thông tin bài hát
+                    const musicInfo = document.createElement('div');
+                    musicInfo.classList.add('music-info');
 
-                    // Tạo trình phát nhạc
-                    const audioPlayer = document.createElement('audio');
-                    audioPlayer.controls = true;
+                    // Tiêu đề bài hát
+                    const title = document.createElement('p');
+                    title.textContent = fileName; // Tên file từ Drive
+                    title.classList.add('music-title');
 
-                    // Gọi API để lấy fileId
-                    fetch(`https://127.0.0.1:8443/music/getFileId?fileName=${encodeURIComponent(fileName)}`)
-                        .then(response => {
-                            if (!response.ok) throw new Error(`Error fetching file ID for ${fileName}`);
-                            return response.json();
-                        })
-                        .then(fileId => {
-                            // Gán fileId vào src của trình phát nhạc
-                            audioPlayer.src = `https://127.0.0.1:8443/music/stream?fileId=${fileId}`;
-                        })
-                        .catch(error => {
-                            console.error(`Error getting file ID for ${fileName}:`, error);
-                        });
+                    // Ca sĩ giả định (thay thế bằng dữ liệu thực tế nếu cần)
+                    const artist = document.createElement('p');
+                    artist.textContent = "Unknown Artist"; // Thay bằng API trả về nếu có
+                    artist.classList.add('music-artist');
 
-                    // Thêm tiêu đề và trình phát nhạc vào danh sách
-                    item.appendChild(title);       // Thêm tiêu đề
-                    item.appendChild(audioPlayer); // Thêm trình phát nhạc
-                    list.appendChild(item);        // Thêm vào danh sách HTML
+                    // Gắn tiêu đề và nghệ sĩ vào phần thông tin
+                    musicInfo.appendChild(title);
+                    musicInfo.appendChild(artist);
+
+                    // Tạo các nhãn (tags)
+                    const tags = document.createElement('div');
+                    tags.classList.add('tags');
+
+                    const officialTag = document.createElement('span');
+                    officialTag.textContent = "OFFICIAL";
+                    officialTag.classList.add('tag', 'official');
+
+                    const qualityTag = document.createElement('span');
+                    qualityTag.textContent = "HQ"; // Thay đổi tùy theo chất lượng
+                    qualityTag.classList.add('tag', 'hq');
+
+                    tags.appendChild(officialTag);
+                    tags.appendChild(qualityTag);
+
+                    // Gắn tags vào phần thông tin
+                    musicInfo.appendChild(tags);
+
+                    // Tạo các hành động
+                    const actions = document.createElement('div');
+                    actions.classList.add('actions');
+
+                    const playBtn = document.createElement('a');
+                    playBtn.classList.add('action-btn');
+                    playBtn.textContent = "▶ Play";
+                    playBtn.onclick = () => {
+                        fetch(`https://127.0.0.1:8443/music/getFileId?fileName=${encodeURIComponent(fileName)}`)
+                            .then(response => response.json())
+                            .then(fileId => {
+                                const audioPlayer = new Audio(`https://127.0.0.1:8443/music/stream?fileId=${fileId}`);
+                                audioPlayer.play();
+                            })
+                            .catch(error => console.error("Error playing song:", error));
+                    };
+
+                    const likeBtn = document.createElement('a');
+                    likeBtn.classList.add('action-btn');
+                    likeBtn.textContent = "♡";
+
+                    const shareBtn = document.createElement('a');
+                    shareBtn.classList.add('action-btn');
+                    shareBtn.textContent = "↗";
+
+                    actions.appendChild(playBtn);
+                    actions.appendChild(likeBtn);
+                    actions.appendChild(shareBtn);
+
+                    // Gắn các phần tử vào danh sách
+                    item.appendChild(musicInfo);
+                    item.appendChild(actions);
+                    list.appendChild(item);
                 });
             })
             .catch(error => {
