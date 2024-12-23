@@ -1,20 +1,110 @@
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: #f9f9f9;
 }
 
-.title {
-    font-size: 24px;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-item {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-item.active {
     font-weight: bold;
     color: #1a73e8;
-    margin-bottom: 20px;
 }
 
+.nav-item:hover {
+    text-decoration: underline;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-link {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.btn-primary {
+    font-size: 14px;
+    color: #fff;
+    background-color: #1a73e8;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #166ad6;
+}
+
+/* Welcome Page Styles */
+.welcome-container {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.welcome-container h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.welcome-container p {
+    font-size: 18px;
+    color: #555;
+    margin: 20px 0;
+}
+
+.welcome-container .btn-primary {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* Music List Styles */
 .music-list {
     list-style: none;
-    padding: 0;
+    padding: 20px;
 }
 
 .music-item {
@@ -59,8 +149,4 @@ body {
 
 .tag.hq {
     background-color: #007bff;
-}
-
-.tag.sq {
-    background-color: #dc3545;
 }
