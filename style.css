@@ -209,6 +209,12 @@ audio {
 .upload-container button:hover {
     background-color: #0077b6;
 }
+.upload-icon {
+    border: none; /* Loại bỏ viền nếu đang có border */
+    box-shadow: none; /* Loại bỏ bóng nếu đang có */
+    outline: none; /* Loại bỏ outline khi được focus */
+    background-color: transparent; /* Đảm bảo nền trong suốt */
+}
 
 .message {
     margin-top: 15px;
