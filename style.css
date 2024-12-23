@@ -1,20 +1,20 @@
 /* Global Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #f3f4f6;
     color: #333;
+    line-height: 1.6;
 }
 
 .header {
-    background-color: #1a73e8;
+    background-color: #1a1a2e;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -26,9 +26,11 @@ body {
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 20px;
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .nav {
@@ -37,19 +39,18 @@ body {
 }
 
 .nav-item {
-    font-size: 14px;
-    color: #333;
+    font-size: 16px;
+    color: #ddd;
     text-decoration: none;
-    font-weight: bold;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
 }
 
+.nav-item:hover,
 .nav-item.active {
-    font-weight: bold;
-    color: #1a73e8;
-}
-
-.nav-item:hover {
-    text-decoration: underline;
+    color: #00aaff;
+    background-color: #333;
+    border-radius: 5px;
 }
 
 .header-right {
@@ -60,53 +61,61 @@ body {
 
 .auth-link {
     font-size: 14px;
-    color: #333;
+    color: #ddd;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .auth-link:hover {
-    text-decoration: underline;
+    color: #00aaff;
 }
 
 .btn-primary {
     font-size: 14px;
     color: #fff;
-    background-color: #1a73e8;
+    background-color: #00aaff;
     border: none;
-    padding: 5px 15px;
+    padding: 8px 20px;
     border-radius: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #166ad6;
+    background-color: #008ecc;
 }
 
 /* Welcome Page Styles */
 .welcome-container {
     text-align: center;
-    padding: 50px 20px;
+    padding: 60px 20px;
+    background: linear-gradient(to right, #00aaff, #007acc);
+    color: #fff;
 }
 
 .welcome-container h1 {
-    font-size: 36px;
-    color: #333;
+    font-size: 40px;
+    margin-bottom: 20px;
 }
 
 .welcome-container p {
     font-size: 18px;
-    color: #555;
-    margin: 20px 0;
+    margin-bottom: 30px;
 }
 
 .welcome-container .btn-primary {
     font-size: 16px;
     padding: 10px 20px;
 }
+
 /* Music List Section */
 .music-list-section {
     padding: 20px;
     background-color: #fff;
+    margin: 20px auto;
+    max-width: 1200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .music-list {
@@ -116,41 +125,71 @@ body {
 }
 
 .music-item {
-    padding: 15px 0;
+    padding: 15px;
     border-bottom: 1px solid #ddd;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .music-info {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
-}
-
-audio {
-    width: 100%;
-    outline: none;
-}
-
-.tags {
-    display: flex;
-    gap: 5px;
-}
-
-.tag {
-    font-size: 12px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: #fff;
-}
-
-.tag.official {
-    background-color: #d3d3d3;
     color: #333;
 }
 
-.tag.hq {
-    background-color: #007bff;
+audio {
+    width: 250px;
+    border-radius: 5px;
+}
+
+/* Upload Form Styles */
+.upload-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.upload-container h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #1a1a2e;
+}
+
+.upload-container input[type="file"],
+.upload-container input[type="text"] {
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.upload-container button {
+    background-color: #00aaff;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-container button:hover {
+    background-color: #007acc;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
 }
