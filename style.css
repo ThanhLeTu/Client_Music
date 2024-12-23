@@ -146,21 +146,21 @@ audio {
 /* Upload Form Styles */
 .upload-container {
     background-color: #fff;
-    padding: 40px;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
     margin: 50px auto;
     text-align: center;
 }
 
 .upload-container h1 {
-    font-size: 28px;
+    font-size: 26px;
     margin-bottom: 25px;
-    color: #1a1a2e;
+    color: #1a73e8;
 }
 
-.upload-container input[type="file"],
+.upload-container input[type="file"], 
 .upload-container input[type="text"] {
     margin-bottom: 20px;
     display: block;
@@ -174,7 +174,7 @@ audio {
 }
 
 .upload-container button {
-    background-color: #00aaff;
+    background-color: #1a73e8;
     color: #fff;
     padding: 12px 24px;
     border: none;
@@ -185,7 +185,7 @@ audio {
 }
 
 .upload-container button:hover {
-    background-color: #007acc;
+    background-color: #166ad6;
 }
 
 .message {
