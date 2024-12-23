@@ -85,6 +85,9 @@ body {
     background-color: #008ecc;
 }
 
+.upload-icon:hover i {
+    color: #ffd700;
+}
 /* Welcome Page Styles */
 .welcome-container {
     text-align: center;
