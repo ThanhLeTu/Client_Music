@@ -84,7 +84,12 @@ body {
 .btn-primary:hover {
     background-color: #008ecc;
 }
-
+.upload-icon i {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 15px;
+}
 .upload-icon:hover i {
     color: #ffd700;
 }
