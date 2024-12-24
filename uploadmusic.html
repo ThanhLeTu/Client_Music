@@ -3,104 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Music Moderation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-   
+    <title>Upload File Âm Thanh</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>Music Moderation - Admin Panel</h1>
-        <a href="#" class="logout-btn">Logout</a>
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Logo" class="logo">
+            <nav class="nav">
+                <a href="index.html" class="nav-item">Trang Chủ</a>
+                <a href="songs.html" class="nav-item active">Danh Sách Bài Hát</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <!-- Icon Upload -->
+            <a href="uploadmusic.html" class="upload-icon">
+                <i class="fas fa-upload"></i>
+            </a>
+            <!-- Other Elements -->
+            <a href="#" class="auth-link">Đăng nhập</a>
+            <button class="btn-primary">Đăng ký</button>
+        </div>
     </header>
-
-    <!-- Main Content -->
-    <div class="container">
-        <h2>Pending Files</h2>
-        <ul id="pending-list"></ul>
-    </div>
-
-    <footer>
-        &copy; 2024 Music Moderation System. All rights reserved.
-    </footer>
+    <main>
+        <h1>Upload File Âm Thanh</h1>
+        <div class="upload-container">
+            <form id="upload-form">
+                <input type="text" id="artist-name" name="artistName" placeholder="Nhập tên ca sĩ" required>
+                <input type="file" name="file" accept="audio/mpeg" required>
+                <button type="submit">Upload</button>
+            </form>
+            <div id="message" class="message"></div>
+        </div>
+        <div id="notification-container" class="notification-container">
+            <h2>Thông Báo</h2>
+            <ul id="notification-list"></ul>
+        </div>
+    </main>
 
     <script>
-        const pendingList = document.getElementById('pending-list');
+        // Gửi file tới server khi submit form
+        document.getElementById('upload-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
 
-        // Fetch pending files
-        function fetchPendingFiles() {
-            fetch('https://127.0.0.1:8443/music/pending')
-                .then(response => {
-                    if (!response.ok) throw new Error('Failed to fetch pending files.');
-                    return response.json();
-                })
-                .then(data => {
-                    pendingList.innerHTML = '';
-                    data.forEach(file => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'file-item';
+            const artistName = document.getElementById('artist-name').value.trim();
+            if (!artistName) {
+                alert("Vui lòng nhập tên ca sĩ!");
+                return;
+            }
 
-                        const fileInfo = document.createElement('div');
-                        fileInfo.className = 'file-info';
-                        fileInfo.innerHTML = 
-                            <span><strong>File:</strong> ${file}</span>
-                        ;
+            const formData = new FormData(this);
+            formData.append("artistName", artistName);
 
-                        const actions = document.createElement('div');
-                        actions.className = 'file-actions';
+            const messageBox = document.getElementById('message');
+            messageBox.textContent = "Đang tải lên...";
+            messageBox.style.color = 'blue';
 
-                        const playButton = document.createElement('button');
-                        playButton.className = 'play-btn';
-                        playButton.textContent = 'Play';
-                        playButton.onclick = () => {
-                            const fileId = file.match(/\(ID: (.+)\)$/)[1];
-                            const audioPlayer = new Audio(https://127.0.0.1:8443/music/stream?fileId=${fileId});
-                            audioPlayer.play();
-                        };
+            try {
+                const response = await fetch('https://127.0.0.1:8443/music/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
 
-                        const approveButton = document.createElement('button');
-                        approveButton.textContent = 'Approve';
-                        approveButton.onclick = () => moderateFile(file, true);
+                if (!response.ok) {
+                    throw new Error(Lỗi tải lên: ${response.statusText});
+                }
 
-                        const rejectButton = document.createElement('button');
-                        rejectButton.className = 'reject-btn';
-                        rejectButton.textContent = 'Reject';
-                        rejectButton.onclick = () => moderateFile(file, false);
+                // Server trả về fileId và thông báo
+                const { fileId, message } = await response.json();
+                messageBox.textContent = message;
+                messageBox.style.color = 'green';
 
-                        actions.appendChild(playButton);
-                        actions.appendChild(approveButton);
-                        actions.appendChild(rejectButton);
+                // Gửi thông báo qua WebSocket
+                if (fileId) {
+                    socket.send(JSON.stringify({
+                        type: 'new_file',
+                        fileId,
+                        artistName,
+                        timestamp: new Date().toISOString(),
+                    }));
+                }
 
-                        listItem.appendChild(fileInfo);
-                        listItem.appendChild(actions);
-                        pendingList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching pending files:', error));
-        }
+                // Reset form sau khi tải lên thành công
+                this.reset();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                messageBox.textContent = 'Đã xảy ra lỗi trong quá trình tải lên.';
+                messageBox.style.color = 'red';
+            }
+        });
 
-        // Moderate file
-        function moderateFile(file, approved) {
-            const fileId = file.match(/\(ID: (.+)\)$/)[1];
-            fetch('https://127.0.0.1:8443/music/moderate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({ fileId, approved })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert(File ${approved ? 'approved' : 'rejected'} successfully.);
-                        fetchPendingFiles(); // Update list dynamically
-                    } else {
-                        alert('Error moderating file.');
-                    }
-                })
-                .catch(error => console.error('Error moderating file:', error));
-        }
+        // Kết nối WebSocket để nhận thông báo realtime
+        const socket = new WebSocket('ws://127.0.0.1:8443/ws/music');
 
-        // Fetch files on load
-        fetchPendingFiles();
+        // Khi kết nối WebSocket được mở
+        socket.onopen = function () {
+            console.log('WebSocket kết nối thành công.');
+        };
+
+        // Khi nhận được tin nhắn từ server
+        socket.onmessage = function (event) {
+            const notificationList = document.getElementById('notification-list');
+            const newNotification = document.createElement('li');
+            const data = JSON.parse(event.data);
+
+            if (data.type === 'new_file') {
+                newNotification.textContent = File mới: ${data.fileId}, Ca sĩ: ${data.artistName} (${data.timestamp});
+            } else {
+                newNotification.textContent = event.data; // fallback nếu không phải thông báo file mới
+            }
+            notificationList.appendChild(newNotification);
+        };
+
+        // Khi kết nối WebSocket bị đóng
+        socket.onclose = function () {
+            console.log('WebSocket đã đóng.');
+        };
+
+        // Khi xảy ra lỗi WebSocket
+        socket.onerror = function (error) {
+            console.error('WebSocket gặp lỗi:', error);
+        };
     </script>
 </body>
 </html>
