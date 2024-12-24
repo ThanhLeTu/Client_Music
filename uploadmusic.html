@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Music Moderation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-   
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,9 +42,7 @@
 
                         const fileInfo = document.createElement('div');
                         fileInfo.className = 'file-info';
-                        fileInfo.innerHTML = `
-                            <span><strong>File:</strong> ${file}</span>
-                        `;
+                        fileInfo.innerHTML = `<span><strong>File:</strong> ${file}</span>`;
 
                         const actions = document.createElement('div');
                         actions.className = 'file-actions';
@@ -53,20 +50,28 @@
                         const playButton = document.createElement('button');
                         playButton.className = 'play-btn';
                         playButton.textContent = 'Play';
+
+                        const fileIdMatch = file.match(/\(ID: (.+)\)$/); // Match fileId
+                        const fileId = fileIdMatch ? fileIdMatch[1] : null;
+
+                        if (!fileId) {
+                            console.error(`Invalid file format: ${file}`);
+                            return; // Skip this file if fileId is not found
+                        }
+
                         playButton.onclick = () => {
-                            const fileId = file.match(/\(ID: (.+)\)$/)[1];
                             const audioPlayer = new Audio(`https://127.0.0.1:8443/music/stream?fileId=${fileId}`);
                             audioPlayer.play();
                         };
 
                         const approveButton = document.createElement('button');
                         approveButton.textContent = 'Approve';
-                        approveButton.onclick = () => moderateFile(file, true);
+                        approveButton.onclick = () => moderateFile(fileId, true);
 
                         const rejectButton = document.createElement('button');
                         rejectButton.className = 'reject-btn';
                         rejectButton.textContent = 'Reject';
-                        rejectButton.onclick = () => moderateFile(file, false);
+                        rejectButton.onclick = () => moderateFile(fileId, false);
 
                         actions.appendChild(playButton);
                         actions.appendChild(approveButton);
@@ -81,8 +86,7 @@
         }
 
         // Moderate file
-        function moderateFile(file, approved) {
-            const fileId = file.match(/\(ID: (.+)\)$/)[1];
+        function moderateFile(fileId, approved) {
             fetch('https://127.0.0.1:8443/music/moderate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
