@@ -19,12 +19,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-   padding: 10px 20px; /* Giảm padding */
-    box-shadow:  0 4px 10px rgba(0, 0, 0, 0.5);;
+    padding: 0 20px; /* Chỉ giữ padding ngang */
+    height: 70px; /* Cố định chiều cao */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 100;
 }
+
 
 .header-left {
     display: flex;
@@ -41,7 +43,6 @@ body {
 }
 
 .nav {
-    display: flex;
     gap: 20px;
 }
 
