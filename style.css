@@ -19,7 +19,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px; /* Chỉ giữ padding ngang */
+    padding: 0 30px; /* Chỉ giữ padding ngang */
     height: 70px; /* Cố định chiều cao */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     position: sticky;
@@ -169,7 +169,7 @@ audio {
 
 /* Upload Form Styles */
 .upload-container {
-    background-color: #1e1e1e;
+    background-color: transparent; /* Xóa nền của container */
     padding: 40px;
     border-radius: 10px;
     box-shadow: none;
@@ -215,6 +215,9 @@ audio {
     box-shadow: none; /* Loại bỏ bóng nếu đang có */
     outline: none; /* Loại bỏ outline khi được focus */
     background-color: transparent; /* Đảm bảo nền trong suốt */
+    border-radius: 50%; /* Bo tròn nếu cần */
+    width: 30px; /* Kích thước hợp lý */
+    height: 30px;
 }
 
 .message {
