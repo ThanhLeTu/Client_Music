@@ -16,11 +16,9 @@
             </nav>
         </div>
         <div class="header-right">
-            <!-- Icon Upload -->
             <a href="uploadmusic.html" class="upload-icon">
                 <i class="fas fa-upload"></i>
             </a>
-            <!-- Other Elements -->
             <a href="#" class="auth-link">Đăng nhập</a>
             <button class="btn-primary">Đăng ký</button>
         </div>
@@ -42,6 +40,9 @@
     </main>
 
     <script>
+        const notificationList = document.getElementById('notification-list');
+        const messageBox = document.getElementById('message');
+
         // Gửi file tới server khi submit form
         document.getElementById('upload-form').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -55,7 +56,6 @@
             const formData = new FormData(this);
             formData.append("artistName", artistName);
 
-            const messageBox = document.getElementById('message');
             messageBox.textContent = "Đang tải lên...";
             messageBox.style.color = 'blue';
 
@@ -69,13 +69,12 @@
                     throw new Error(`Lỗi tải lên: ${response.statusText}`);
                 }
 
-                // Server trả về fileId và thông báo
                 const { fileId, message } = await response.json();
                 messageBox.textContent = message;
                 messageBox.style.color = 'green';
 
                 // Gửi thông báo qua WebSocket
-                if (fileId) {
+                if (socket.readyState === WebSocket.OPEN) {
                     socket.send(JSON.stringify({
                         type: 'new_file',
                         fileId,
@@ -84,7 +83,6 @@
                     }));
                 }
 
-                // Reset form sau khi tải lên thành công
                 this.reset();
             } catch (error) {
                 console.error('Lỗi:', error);
@@ -103,14 +101,13 @@
 
         // Khi nhận được tin nhắn từ server
         socket.onmessage = function (event) {
-            const notificationList = document.getElementById('notification-list');
-            const newNotification = document.createElement('li');
             const data = JSON.parse(event.data);
+            const newNotification = document.createElement('li');
 
             if (data.type === 'new_file') {
                 newNotification.textContent = `File mới: ${data.fileId}, Ca sĩ: ${data.artistName} (${data.timestamp})`;
             } else {
-                newNotification.textContent = event.data; // fallback nếu không phải thông báo file mới
+                newNotification.textContent = event.data;
             }
             notificationList.appendChild(newNotification);
         };
