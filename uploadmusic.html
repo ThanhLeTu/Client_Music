@@ -25,20 +25,25 @@
             <button class="btn-primary">Đăng ký</button>
         </div>
     </header>
-     <h1>Upload File Âm Thanh</h1>
-    <div class="upload-container">
-       
-        <br/>
-        <form id="upload-form">
-            <input type="text" id="artist-name" name="artistName" placeholder="Nhập tên ca sĩ" required>
-            <input type="file" name="file" accept="audio/mpeg" required>
-            <button type="submit">Upload</button>
-        </form>
-        <div id="message" class="message"></div>
-    </div>
+    <main>
+        <h1>Upload File Âm Thanh</h1>
+        <div class="upload-container">
+            <form id="upload-form">
+                <input type="text" id="artist-name" name="artistName" placeholder="Nhập tên ca sĩ" required>
+                <input type="file" name="file" accept="audio/mpeg" required>
+                <button type="submit">Upload</button>
+            </form>
+            <div id="message" class="message"></div>
+        </div>
+        <div id="notification-container" class="notification-container">
+            <h2>Thông Báo</h2>
+            <ul id="notification-list"></ul>
+        </div>
+    </main>
 
     <script>
-        document.getElementById('upload-form').addEventListener('submit', function (event) {
+        // Gửi file tới server khi submit form
+        document.getElementById('upload-form').addEventListener('submit', async function (event) {
             event.preventDefault();
 
             const artistName = document.getElementById('artist-name').value.trim();
@@ -50,26 +55,56 @@
             const formData = new FormData(this);
             formData.append("artistName", artistName);
 
-            fetch('https://127.0.0.1:8443/music/upload', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error('Error uploading file.');
-                    return response.text();
-                })
-                .then(message => {
-                    const messageBox = document.getElementById('message');
-                    messageBox.textContent = message;
-                    messageBox.style.color = 'green';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    const messageBox = document.getElementById('message');
-                    messageBox.textContent = 'Error uploading file.';
-                    messageBox.style.color = 'red';
+            const messageBox = document.getElementById('message');
+            messageBox.textContent = "Đang tải lên...";
+            messageBox.style.color = 'blue';
+
+            try {
+                const response = await fetch('https://127.0.0.1:8443/music/upload', {
+                    method: 'POST',
+                    body: formData,
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Lỗi tải lên: ${response.statusText}`);
+                }
+
+                const message = await response.text();
+                messageBox.textContent = message;
+                messageBox.style.color = 'green';
+                this.reset();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                messageBox.textContent = 'Đã xảy ra lỗi trong quá trình tải lên.';
+                messageBox.style.color = 'red';
+            }
         });
+
+        // Kết nối WebSocket để nhận thông báo realtime
+        const socket = new WebSocket('ws://127.0.0.1:8443/ws/music');
+
+        // Khi kết nối WebSocket được mở
+        socket.onopen = function () {
+            console.log('WebSocket kết nối thành công.');
+        };
+
+        // Khi nhận được tin nhắn từ server
+        socket.onmessage = function (event) {
+            const notificationList = document.getElementById('notification-list');
+            const newNotification = document.createElement('li');
+            newNotification.textContent = event.data;
+            notificationList.appendChild(newNotification);
+        };
+
+        // Khi kết nối WebSocket bị đóng
+        socket.onclose = function () {
+            console.log('WebSocket đã đóng.');
+        };
+
+        // Khi xảy ra lỗi WebSocket
+        socket.onerror = function (error) {
+            console.error('WebSocket gặp lỗi:', error);
+        };
     </script>
 </body>
 </html>
