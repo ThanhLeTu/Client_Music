@@ -69,9 +69,22 @@
                     throw new Error(`Lỗi tải lên: ${response.statusText}`);
                 }
 
-                const message = await response.text();
+                // Server trả về fileId và thông báo
+                const { fileId, message } = await response.json();
                 messageBox.textContent = message;
                 messageBox.style.color = 'green';
+
+                // Gửi thông báo qua WebSocket
+                if (fileId) {
+                    socket.send(JSON.stringify({
+                        type: 'new_file',
+                        fileId,
+                        artistName,
+                        timestamp: new Date().toISOString(),
+                    }));
+                }
+
+                // Reset form sau khi tải lên thành công
                 this.reset();
             } catch (error) {
                 console.error('Lỗi:', error);
@@ -92,7 +105,13 @@
         socket.onmessage = function (event) {
             const notificationList = document.getElementById('notification-list');
             const newNotification = document.createElement('li');
-            newNotification.textContent = event.data;
+            const data = JSON.parse(event.data);
+
+            if (data.type === 'new_file') {
+                newNotification.textContent = `File mới: ${data.fileId}, Ca sĩ: ${data.artistName} (${data.timestamp})`;
+            } else {
+                newNotification.textContent = event.data; // fallback nếu không phải thông báo file mới
+            }
             notificationList.appendChild(newNotification);
         };
 
