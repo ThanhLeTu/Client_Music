@@ -40,9 +40,6 @@
     </main>
 
     <script>
-        const notificationList = document.getElementById('notification-list');
-        const messageBox = document.getElementById('message');
-
         // Gửi file tới server khi submit form
         document.getElementById('upload-form').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -56,6 +53,7 @@
             const formData = new FormData(this);
             formData.append("artistName", artistName);
 
+            const messageBox = document.getElementById('message');
             messageBox.textContent = "Đang tải lên...";
             messageBox.style.color = 'blue';
 
@@ -69,6 +67,7 @@
                     throw new Error(`Lỗi tải lên: ${response.statusText}`);
                 }
 
+                // Server trả về fileId và thông báo
                 const { fileId, message } = await response.json();
                 messageBox.textContent = message;
                 messageBox.style.color = 'green';
@@ -83,6 +82,7 @@
                     }));
                 }
 
+                // Reset form sau khi tải lên thành công
                 this.reset();
             } catch (error) {
                 console.error('Lỗi:', error);
@@ -101,13 +101,14 @@
 
         // Khi nhận được tin nhắn từ server
         socket.onmessage = function (event) {
-            const data = JSON.parse(event.data);
+            const notificationList = document.getElementById('notification-list');
             const newNotification = document.createElement('li');
+            const data = JSON.parse(event.data);
 
             if (data.type === 'new_file') {
                 newNotification.textContent = `File mới: ${data.fileId}, Ca sĩ: ${data.artistName} (${data.timestamp})`;
             } else {
-                newNotification.textContent = event.data;
+                newNotification.textContent = event.data; // fallback nếu không phải thông báo file mới
             }
             notificationList.appendChild(newNotification);
         };
